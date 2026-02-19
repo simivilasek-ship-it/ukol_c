@@ -1,0 +1,118 @@
+<html>
+<head>
+<title>main.c</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #bbb529;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #6897bb;}
+.s4 { color: #cc7832;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+main.c</font>
+</center></td></tr></table>
+<pre><span class="s0">#include </span><span class="s2">&lt;stdio.h&gt;</span>
+<span class="s0">#include </span><span class="s2">&lt;stdlib.h&gt;</span>
+
+<span class="s0">#define </span><span class="s1">UROKOVA_MIRA </span><span class="s3">0.05</span>
+<span class="s0">#define </span><span class="s1">DAN_Z_UROKU </span><span class="s3">0.03</span>
+<span class="s0">#define </span><span class="s1">MIN_CASTKA </span><span class="s3">100</span>
+<span class="s0">#define </span><span class="s1">MAX_CASTKA </span><span class="s3">10000000</span>
+<span class="s0">#define </span><span class="s1">ROK </span><span class="s3">2026</span>
+<span class="s0">#define </span><span class="s1">SOUBOR </span><span class="s2">&quot;vypisUctu.txt&quot;</span>
+<span class="s0">#define </span><span class="s1">POCET_MESICU </span><span class="s3">12</span>
+
+
+
+
+<span class="s4">int </span><span class="s1">jePrestupny(</span><span class="s4">int </span><span class="s1">rok) {</span>
+    <span class="s4">if </span><span class="s1">((rok % </span><span class="s3">4 </span><span class="s1">== </span><span class="s3">0 </span><span class="s1">&amp;&amp; rok % </span><span class="s3">100 </span><span class="s1">!= </span><span class="s3">0</span><span class="s1">) || (rok % </span><span class="s3">400 </span><span class="s1">== </span><span class="s3">0</span><span class="s1">))</span>
+        <span class="s4">return </span><span class="s3">1</span><span class="s4">;</span>
+    <span class="s4">else</span>
+        <span class="s4">return </span><span class="s3">0</span><span class="s4">;</span>
+<span class="s1">}</span>
+
+
+
+<span class="s4">int </span><span class="s1">pocet_dni(</span><span class="s4">int </span><span class="s1">mesic</span><span class="s4">, int </span><span class="s1">rok) {</span>
+    <span class="s4">if </span><span class="s1">(mesic==</span><span class="s3">1 </span><span class="s1">|| mesic==</span><span class="s3">3 </span><span class="s1">|| mesic==</span><span class="s3">5 </span><span class="s1">|| mesic==</span><span class="s3">7 </span><span class="s1">|| mesic==</span><span class="s3">8 </span><span class="s1">|| mesic==</span><span class="s3">10 </span><span class="s1">|| mesic==</span><span class="s3">12</span><span class="s1">)</span>
+        <span class="s4">return </span><span class="s3">31</span><span class="s4">;</span>
+    <span class="s4">if </span><span class="s1">(mesic==</span><span class="s3">2 </span><span class="s1">|| mesic==</span><span class="s3">4 </span><span class="s1">|| mesic==</span><span class="s3">6 </span><span class="s1">|| mesic==</span><span class="s3">9 </span><span class="s1">|| mesic==</span><span class="s3">11</span><span class="s1">)</span>
+        <span class="s4">return </span><span class="s3">30</span><span class="s4">;</span>
+    <span class="s4">if </span><span class="s1">(mesic == </span><span class="s3">2</span><span class="s1">) {</span>
+        <span class="s4">if </span><span class="s1">(jePrestupny(rok))</span>
+            <span class="s4">return </span><span class="s3">29</span><span class="s4">;</span>
+        <span class="s4">else</span>
+            <span class="s4">return </span><span class="s3">28</span><span class="s4">;</span>
+    <span class="s1">}</span>
+
+    <span class="s4">return </span><span class="s3">0</span><span class="s4">;</span>
+<span class="s1">}</span>
+    <span class="s4">double </span><span class="s1">nacti(</span><span class="s4">double </span><span class="s1">min</span><span class="s4">, double </span><span class="s1">max) {</span>
+        <span class="s4">double </span><span class="s1">x</span><span class="s4">;</span>
+
+        <span class="s4">do </span><span class="s1">{</span>
+            <span class="s1">printf(</span><span class="s2">&quot;Zadej hodnotu (%.2f - %.2f): &quot;</span><span class="s4">, </span><span class="s1">min</span><span class="s4">, </span><span class="s1">max)</span><span class="s4">;</span>
+            <span class="s1">scanf(</span><span class="s2">&quot;%lf&quot;</span><span class="s4">, </span><span class="s1">&amp;x)</span><span class="s4">;</span>
+        <span class="s1">} </span><span class="s4">while </span><span class="s1">(x &lt; min || x &gt; max)</span><span class="s4">;</span>
+
+        <span class="s4">return </span><span class="s1">x</span><span class="s4">;</span>
+    <span class="s1">}</span>
+
+
+<span class="s4">double </span><span class="s1">nacti(</span><span class="s4">double </span><span class="s1">min</span><span class="s4">, double </span><span class="s1">max)</span><span class="s4">;</span>
+<span class="s4">int </span><span class="s1">jePrestupny(</span><span class="s4">int </span><span class="s1">rok)</span><span class="s4">;</span>
+<span class="s4">int </span><span class="s1">pocetDni(</span><span class="s4">int </span><span class="s1">mesic</span><span class="s4">, int </span><span class="s1">rok)</span><span class="s4">;</span>
+<span class="s4">int </span><span class="s1">main(</span><span class="s4">void</span><span class="s1">) {</span>
+
+    <span class="s4">double </span><span class="s1">pocatecni_stav</span><span class="s4">;</span>
+    <span class="s4">double </span><span class="s1">mesicni_vklad</span><span class="s4">;</span>
+    <span class="s4">double </span><span class="s1">stav</span><span class="s4">;</span>
+    <span class="s4">double </span><span class="s1">urok</span><span class="s4">;</span>
+    <span class="s4">double </span><span class="s1">dan</span><span class="s4">;</span>
+
+    <span class="s1">FILE *f</span><span class="s4">;</span>
+
+    <span class="s1">printf(</span><span class="s2">&quot;Simulace sporiciho uctu</span><span class="s4">\n</span><span class="s2">&quot;</span><span class="s1">)</span><span class="s4">;</span>
+
+    <span class="s1">pocatecni_stav = nacti(</span><span class="s3">1000</span><span class="s4">, </span><span class="s3">10000000</span><span class="s1">)</span><span class="s4">;</span>
+    <span class="s1">mesicni_vklad = nacti(</span><span class="s3">0</span><span class="s4">, </span><span class="s3">1000000</span><span class="s1">)</span><span class="s4">;</span>
+
+    <span class="s1">stav = pocatecni_stav</span><span class="s4">;</span>
+
+    <span class="s1">f = fopen(SOUBOR</span><span class="s4">, </span><span class="s2">&quot;w&quot;</span><span class="s1">)</span><span class="s4">;</span>
+
+    <span class="s1">fprintf(f</span><span class="s4">, </span><span class="s2">&quot;Vypis uctu za rok %d</span><span class="s4">\n\n</span><span class="s2">&quot;</span><span class="s4">, </span><span class="s1">ROK)</span><span class="s4">;</span>
+
+    <span class="s4">for </span><span class="s1">(</span><span class="s4">int </span><span class="s1">mesic = </span><span class="s3">1</span><span class="s4">; </span><span class="s1">mesic &lt;= </span><span class="s3">12</span><span class="s4">; </span><span class="s1">mesic++) {</span>
+
+        <span class="s1">stav = stav + mesicni_vklad</span><span class="s4">;</span>
+
+        <span class="s1">urok = stav * (UROKOVA_MIRA / </span><span class="s3">12</span><span class="s1">)</span><span class="s4">;</span>
+        <span class="s1">dan = urok * DAN_Z_UROKU</span><span class="s4">;</span>
+
+        <span class="s1">stav = stav + urok - dan</span><span class="s4">;</span>
+
+        <span class="s1">fprintf(f</span><span class="s4">, </span><span class="s2">&quot;Datum: %d.%d.%d</span><span class="s4">\n</span><span class="s2">&quot;</span><span class="s4">,</span>
+                <span class="s1">pocet_dni(mesic</span><span class="s4">, </span><span class="s1">ROK)</span><span class="s4">, </span><span class="s1">mesic</span><span class="s4">, </span><span class="s1">ROK)</span><span class="s4">;</span>
+        <span class="s1">fprintf(f</span><span class="s4">, </span><span class="s2">&quot;Urok: %.2f</span><span class="s4">\n</span><span class="s2">&quot;</span><span class="s4">, </span><span class="s1">urok)</span><span class="s4">;</span>
+        <span class="s1">fprintf(f</span><span class="s4">, </span><span class="s2">&quot;Dan: %.2f</span><span class="s4">\n</span><span class="s2">&quot;</span><span class="s4">, </span><span class="s1">dan)</span><span class="s4">;</span>
+        <span class="s1">fprintf(f</span><span class="s4">, </span><span class="s2">&quot;Stav: %.2f</span><span class="s4">\n\n</span><span class="s2">&quot;</span><span class="s4">, </span><span class="s1">stav)</span><span class="s4">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">fprintf(f</span><span class="s4">, </span><span class="s2">&quot;Konecny stav: %.2f</span><span class="s4">\n</span><span class="s2">&quot;</span><span class="s4">, </span><span class="s1">stav)</span><span class="s4">;</span>
+    <span class="s1">fprintf(f</span><span class="s4">, </span><span class="s2">&quot;Rozdil: %.2f</span><span class="s4">\n</span><span class="s2">&quot;</span><span class="s4">, </span><span class="s1">stav - pocatecni_stav)</span><span class="s4">;</span>
+
+    <span class="s1">fclose(f)</span><span class="s4">;</span>
+
+    <span class="s1">printf(</span><span class="s2">&quot;Hotovo. Vypis je v souboru %s</span><span class="s4">\n</span><span class="s2">&quot;</span><span class="s4">, </span><span class="s1">SOUBOR)</span><span class="s4">;</span>
+
+    <span class="s4">return </span><span class="s3">0</span><span class="s4">;</span>
+<span class="s1">}</span></pre>
+</body>
+</html>
